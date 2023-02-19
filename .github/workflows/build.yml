@@ -1,0 +1,57 @@
+name: build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4.5.0
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install poetry
+      run: |
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python3 -
+
+    - name: Set up cache
+      uses: actions/cache@v3.2.4
+      with:
+        path: .venv
+        key: venv-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('poetry.lock') }}
+    - name: Install dependencies
+      run: |
+        poetry config virtualenvs.in-project true
+        poetry install
+
+    - name: Run style checks
+      run: |
+        poetry run ruff check aiodispatch/ tests/ examples/
+        poetry run black --diff --check --config pyproject.toml ./
+
+    - name: Run safety checks
+      run: |
+        poetry check
+        poetry run bandit -ll --recursive aiodispatch/ tests/ examples/
+
+    - name: Run type checks
+      run: |
+        poetry run mypy --config-file pyproject.toml ./
+
+    - name: Run tests
+      run: |
+        PYTHONPATH=$(PYTHONPATH) poetry run pytest -c pyproject.toml --cov-report=html --cov=aiodispatch tests/
+        poetry run coverage-badge -o assets/images/coverage.svg -f
+
+    - name: Publish coverage report to coverage-badge branch
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: assets
+        folder: assets
+        token: ${{ secrets.ASSETS_DEPLOY_TOKEN }}
