@@ -1,0 +1,124 @@
+[tool.poetry]
+name = "aiotasq"
+version = "0.1.0"
+description = ""
+authors = ["Niek Keijzer <hello@niekkeijzer.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+bandit = "^1.7.4"
+darglint = "^1.8.1"
+mypy = "^0.991"
+mypy-extensions = "^0.4.4"
+pre-commit = "^2.20.0"
+pydocstyle = "^6.1.1"
+pylint = "^2.16.1"
+pyupgrade = "^3.2.2"
+coverage = "^6.5.0"
+coverage-badge = "^1.1.0"
+pytest = "^7.2.0"
+pytest-html = "^3.2.0"
+pytest-cov = "^4.0.0"
+ruff = "^0.0.238"
+tomli = "^2.0.1"
+
+[tool.ruff]
+select = [
+  # Pyflakes
+  "F",
+  # Pycodestyle
+  "E",
+  "W",
+  # isort
+  "I001"
+]
+src = ["aiotasq", "tests"]
+
+[tool.ruff.isort]
+known-first-party = ["meals"]
+
+[tool.black]
+# https://github.com/psf/black
+target-version = ["py311"]
+line-length = 88
+color = true
+
+exclude = '''
+/(
+    \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.mypy_cache
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | env
+    | venv
+)/
+'''
+
+[tool.mypy]
+# https://mypy.readthedocs.io/en/latest/config_file.html#using-a-pyproject-toml-file
+python_version = 3.11
+pretty = true
+show_traceback = true
+color_output = true
+
+allow_redefinition = false
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+ignore_missing_imports = true
+implicit_reexport = false
+no_implicit_optional = true
+show_column_numbers = true
+show_error_codes = true
+show_error_context = true
+strict_equality = true
+strict_optional = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+
+[tool.pytest.ini_options]
+# https://docs.pytest.org/en/6.2.x/customize.html#pyproject-toml
+# Directories that are not visited by pytest collector:
+norecursedirs = ["hooks", "*.egg", ".eggs", "dist", "build", "docs", ".tox", ".git", "__pycache__"]
+doctest_optionflags = ["NUMBER", "NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
+
+# Extra options:
+addopts = [
+  "--strict-markers",
+  "--tb=short",
+  "--doctest-modules",
+  "--doctest-continue-on-failure",
+]
+
+[tool.coverage.run]
+source = ["tests"]
+
+[coverage.paths]
+source = "meals"
+
+[coverage.run]
+branch = true
+
+[coverage.report]
+fail_under = 50
+show_missing = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
