@@ -1,0 +1,116 @@
+[tool.poetry]
+name = "aiodispatch"
+version = "0.0.0"
+description = ""
+authors = ["Niek Keijzer <hello@niekkeijzer.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+bandit = "^1.7.4"
+mypy = "^0.991"
+mypy-extensions = "^0.4.4"
+pre-commit = "^2.20.0"
+pydocstyle = "^6.1.1"
+pylint = "^2.16.1"
+pyupgrade = "^3.2.2"
+coverage = "^6.5.0"
+coverage-badge = "^1.1.0"
+pytest = "^7.2.0"
+pytest-html = "^3.2.0"
+pytest-cov = "^4.0.0"
+pytest-mock = "^3.10.0"
+pytest-asyncio = "^0.20.3"
+ruff = "^0.0.238"
+tomli = "^2.0.1"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+cs = "git"
+style = "semver"
+
+[tool.ruff]
+select = [
+  # Pyflakes
+  "F",
+  # Pycodestyle
+  "E",
+  "W",
+  # isort
+  "I001"
+]
+src = ["aiodispatch", "tests"]
+
+[tool.ruff.isort]
+known-first-party = ["aiodispatch"]
+
+[tool.black]
+# https://github.com/psf/black
+target-version = ["py311"]
+line-length = 88
+color = true
+
+exclude = '''
+/(
+    \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.mypy_cache
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | env
+    | venv
+)/
+'''
+
+[tool.mypy]
+# https://mypy.readthedocs.io/en/latest/config_file.html#using-a-pyproject-toml-file
+python_version = 3.11
+pretty = true
+show_traceback = true
+color_output = true
+
+
+
+[tool.pytest.ini_options]
+# https://docs.pytest.org/en/6.2.x/customize.html#pyproject-toml
+# Directories that are not visited by pytest collector:
+norecursedirs = ["hooks", "*.egg", ".eggs", "dist", "build", "docs", ".tox", ".git", "__pycache__"]
+doctest_optionflags = ["NUMBER", "NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL"]
+
+# Extra options:
+addopts = [
+  "--strict-markers",
+  "--tb=short",
+  "--doctest-modules",
+  "--doctest-continue-on-failure",
+  "--cov=aiodispatch",
+  "--asyncio-mode=auto"
+]
+
+
+[tool.coverage.paths]
+source = ["aiodispatch"]
+
+[tool.coverage.run]
+branch = true
+source = ["tests"]
+
+[tool.coverage.report]
+# List of patterns to exclude
+exclude_lines = ["pass", "\\.\\.\\."]
+fail_under = 80
+show_missing = true
+skip_covered = true
+skip_empty = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
