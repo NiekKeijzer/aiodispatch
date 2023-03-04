@@ -1,6 +1,8 @@
 # AioDispatch
 
-![code coverage](https://raw.githubusercontent.com/NiekKeijzer/aiodispatch/assets/images/coverage.svg)
+[![Test and Lint](https://github.com/NiekKeijzer/aiodispatch/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/NiekKeijzer/aiodispatch/actions/workflows/test.yml)
+![Code Coverage](https://raw.githubusercontent.com/NiekKeijzer/aiodispatch/assets/images/coverage.svg)
+[![PyPI version](https://badge.fury.io/py/aiodispatch.svg)](https://badge.fury.io/py/aiodispatch)
 
 AioDispatch is a simple and pluggable async dispatcher framework with batteries included. AioDispatch can be used 
  to offload expensive operations to external workers. For example, you might use the framework to send email, execute 
