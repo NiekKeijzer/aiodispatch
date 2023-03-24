@@ -24,7 +24,7 @@ pytest-html = "^3.2.0"
 pytest-cov = "^4.0.0"
 pytest-mock = "^3.10.0"
 pytest-asyncio = "^0.20.3"
-ruff = "^0.0.238"
+ruff = ">=0.0.238,<0.0.260"
 tomli = "^2.0.1"
 
 [tool.poetry-dynamic-versioning]
