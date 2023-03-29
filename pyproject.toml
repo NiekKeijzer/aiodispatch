@@ -9,7 +9,7 @@ readme = "README.md"
 python = "^3.11"
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.10.0"
+black = ">=22.10,<24.0"
 bandit = "^1.7.4"
 mypy = "^0.991"
 mypy-extensions = "^0.4.4"
